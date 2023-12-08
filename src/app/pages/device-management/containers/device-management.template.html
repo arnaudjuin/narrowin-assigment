@@ -4,7 +4,7 @@
   </div>
 </div>
 <div class="row">
-  <!-- nav -->
+  <!-- search -->
   <div class="col order-2 order-lg-1 bg-dark">
     <div class="ui-bordered">
       <form method="post" style="display:inline;">
@@ -12,8 +12,9 @@
           <div class="form-group">
             <div class="input-group">
               <input type="text" class="form-control" placeholder="Search..." (keyup)="search($event)">
-
             </div>
+            <button class="btn btn-secondary btn-sm" type="button" (click)="toggleList()"><i class="ion ion-md-help navbar-icon align-middle"></i></button>
+
             <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">Size:
               {{options.size}}</button>
             <ul class="dropdown-menu dropdown-menu-end">
@@ -30,13 +31,13 @@
   </div>
 </div>
 <!-- table -->
-<div class="card mb-3" *ngIf="devices">
+<div class="card mb-3" *ngIf="devices" [hidden]="!list" >
   <div class="card-body">
     <table class="table" style="table-layout: fixed;">
       <thead>
       <tr>
-        <th (click)="order('Code')" role="button" style="width: 10%;">
-          # <span *ngIf="by('Code')">{{ direction }}</span>
+        <th (click)="order('Name')" role="button" style="width: 10%;">
+          # <span *ngIf="by('Name')">{{ direction }}</span>
         </th>
         <th (click)="order('Name')" role="button">
           Name <span *ngIf="by('Name')">{{ direction }}</span>
@@ -64,11 +65,10 @@
   </div>
 </div>
 <!-- grid -->
-<div class="row bg-dark">
-  <div class="col-sm-12 d-flex flex-sm-row flex-wrap justify-content-left align-items-sm-left border-bottom-0">
-    <div *ngFor="let device of devices.data" class="col-sm-6 col-xl-3 text-center p-3 border-right-0 ui-bordered"
+<div class="row bg-dark" [hidden]="list">
+  <div *ngIf="devices" class="col-sm-12 d-flex flex-sm-row flex-wrap justify-content-left align-items-sm-left border-bottom-0">
+    <div  *ngFor="let device of devices?.data" class="col-sm-6 col-xl-3 text-center p-3 border-right-0 ui-bordered"
          id="nodebox">
-
       <a href="{{deviceURL+device.device.id}}" style="cursor: pointer;">
         <h5 class="text-large" style="color:#717171;">
           {{device.system.name}}
@@ -108,12 +108,12 @@
 </div>
 <!-- paginator -->
 
-<nav *ngIf="devices.data.length > 1">
-  <ul class="pagination justify-content-center">
+<nav *ngIf="devices?.data?.length > 1" class="bg-dark">
+  <ul class="pagination justify-content-center bg-dark">
     <li id="prev" class="page-item" [ngClass]="{ 'disabled': options.page === 1 }">
       <a class="page-link" href="#" (click)="prev()">Previous</a>
     </li>
-    <ng-container *ngIf="devices.data">
+    <ng-container *ngIf="devices?.data">
       <li class="page-item" *ngFor="let number of numbers" [ngClass]="{ 'active': options.page === number }">
         <a class="page-link" href="#" (click)="to(number)">{{number}}</a>
       </li>

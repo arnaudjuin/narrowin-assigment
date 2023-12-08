@@ -29,6 +29,15 @@ export class RestApiService {
       })                                                   // post devices request
       .pipe(retry(1), catchError(this.handleError)); //, catchError(this.handleError)
   }
+  search(search:string): Observable<any[]> {
+    return this.http
+      .post<any[]>("/api" + "/explorer_device/searchlist",{
+        "username": environment.USERNAME,
+        "token": environment.TOKEN,
+        "search": search
+      })                                                   // post devices request
+      .pipe(retry(1), catchError(this.handleError)); //, catchError(this.handleError)
+  }
 
   handleError(error: any) {
     let errorMessage = "";

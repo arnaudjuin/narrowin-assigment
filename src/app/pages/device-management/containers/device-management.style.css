@@ -1,1 +1,12 @@
 
+#nodebox {
+  -webkit-box-shadow: inset -34px -34px 70px -71px rgba(209,209,209,0.6);
+  -moz-box-shadow: inset -34px -34px 70px -71px rgba(209,209,209,0.6);
+  box-shadow: inset -34px -34px 70px -71px rgba(209,209,209,0.6);
+  border-right: 1px solid rgba(24,28,33,0.06);
+}
+#nodebox:hover {
+  -webkit-box-shadow: inset -34px -34px 70px -80px rgba(150,150,150,1);
+  -moz-box-shadow: inset -34px -34px 70px -80px rgba(150,150,150,1);
+  box-shadow: inset -34px -34px 70px -80px rgba(150,150,150,1);
+}
