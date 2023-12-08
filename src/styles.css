@@ -1,1 +1,30 @@
-/* You can add global styles to this file, and also import other style files */
+@import "./assets/accordion.css";
+@import "./assets/authentication.css";
+@import "./assets/bootstrap.css";
+@import "./assets/bootstrap-filter.css";
+@import "./assets/bootstrap-multiselect.css";
+@import "./assets/bootstrap-select.css";
+@import "./assets/bootstrap-sortable.css";
+@import "./assets/bootstrap-tagsinput.css";
+@import "./assets/chart.css";
+@import "./assets/dataTables.bootstrap.min.css";
+@import "./assets/datatables-custom.css";
+@import "./assets/dropzone.css";
+@import "./assets/jquery.dataTables.1.13.5.min.css";
+@import "./assets/narrowin.css";
+@import "./assets/nw-css1.css";
+@import "./assets/nw-css2.css";
+@import "./assets/nw-css3.css";
+@import "./assets/nw-css4.css";
+@import "./assets/smartwizard.css";
+@import "./assets/typeahead.css";
+@import "./assets/uikit.css";
+
+
+
+
+
+
+
+
+

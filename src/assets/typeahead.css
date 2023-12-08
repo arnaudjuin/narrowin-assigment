@@ -1,0 +1,13 @@
+.tt-menu {
+    border: 1px solid rgb(232, 232, 233);
+    background-color: white;
+    padding: 10px;
+}
+
+.tt-suggestion {
+    padding: 5px;
+}
+
+.tt-selectable:hover {
+    background-color: rgba(40, 195, 215, .1);
+}
