@@ -28,7 +28,7 @@ export class DeviceManagementComponent implements OnInit {
     orderDir: 'ASC',
     page: 1,
     search: '',
-    size: 20
+    size: 3
   };
   devices: any
   deviceURL: string = ""
@@ -47,12 +47,13 @@ export class DeviceManagementComponent implements OnInit {
     this.getDevicesSub.unsubscribe();
   }
 
-  toggleList() {
-    this.list = !this.list
+  toggleList(_list:boolean){
+    this.list = !_list;
     this.cdr.detectChanges();     //to refresh the view
   }
 
   loadDevices() {
+    this.cdr.detectChanges();     //to refresh the view
     console.log("load")
     this.getDevicesSub = this.restApi.getDevices().subscribe((data: {}) => {
       this.devices = data;
@@ -60,6 +61,8 @@ export class DeviceManagementComponent implements OnInit {
     });
   }
   searchDevices(text: string) {
+    this.devices=null
+    this.cdr.detectChanges();     //to refresh the view
     console.log("search")
     this.getDevicesSub = this.restApi.search(text).subscribe((data: {}) => {
       this.devices = data;
@@ -68,6 +71,8 @@ export class DeviceManagementComponent implements OnInit {
   }
 
   search($event: any): void {
+    this.devices=null
+    this.cdr.detectChanges();     //to refresh the view
     console.log("load")
     const text = $event.target.value;
     this.options.search = text;

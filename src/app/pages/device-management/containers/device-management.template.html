@@ -13,8 +13,14 @@
             <div class="input-group">
               <input type="text" class="form-control" placeholder="Search..." (keyup)="search($event)">
             </div>
-            <button class="btn btn-secondary btn-sm" type="button" (click)="toggleList()"><i class="ion ion-md-help navbar-icon align-middle"></i></button>
-
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <label class="btn btn-secondary active">
+                <input checked="{{!list}}"type="radio" name="options" id="option1" autocomplete="off" checked (click)="toggleList(true)"> <i class="bi bi-grid-3x3"></i>
+              </label>
+              <label class="btn btn-secondary">
+                <input type="radio" name="options" id="option2" autocomplete="off" (click)="toggleList(false)"> <i class="bi bi-list"></i>
+              </label>
+            </div>
             <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">Size:
               {{options.size}}</button>
             <ul class="dropdown-menu dropdown-menu-end">
@@ -30,8 +36,17 @@
     </div>
   </div>
 </div>
+<!-- spinner -->
+<div class="row" *ngIf="!devices" class="bg-dark">
+  <div class="center-spinner">
+  <div class="spinner-border" style="width: 30rem; height: 30rem;" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+  </div>
+</div>
 <!-- table -->
-<div class="card mb-3" *ngIf="devices" [hidden]="!list" >
+
+<div class="card mb-3" *ngIf="devices" [hidden]="!list"  >
   <div class="card-body">
     <table class="table" style="table-layout: fixed;">
       <thead>
@@ -65,7 +80,7 @@
   </div>
 </div>
 <!-- grid -->
-<div class="row bg-dark" [hidden]="list">
+<div class="row bg-dark" [hidden]="list" *ngIf="devices" >
   <div *ngIf="devices" class="col-sm-12 d-flex flex-sm-row flex-wrap justify-content-left align-items-sm-left border-bottom-0">
     <div  *ngFor="let device of devices?.data" class="col-sm-6 col-xl-3 text-center p-3 border-right-0 ui-bordered"
          id="nodebox">
