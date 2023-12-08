@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { DeviceManagementComponent } from "./containers/device-management.component";
 import { RestApiService } from "../../core/services/data.service";
-import { DeviceManagementRouting } from "./deviceManagement-routing";
+import { DeviceManagementRouting } from "./device-management-routing";
 
 @NgModule({
   imports: [

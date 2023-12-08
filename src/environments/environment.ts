@@ -3,9 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
-};
-
+  production: false,
+  APIURL: 'https://acme-prod.narrowin.ch/api.php/v2',
+  USERNAME: "readonly",
+  TOKEN: "5ed3540cbe68c5a18ac25aa9e17310086385207e"
+}
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

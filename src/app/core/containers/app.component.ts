@@ -19,7 +19,5 @@ export class AppComponent implements OnInit {
       public cdr: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {
-    console.log('init');
-  }
+  ngOnInit() {}
 }

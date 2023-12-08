@@ -1,0 +1,9 @@
+{
+  "/api/*": {
+    "target": "https://acme-prod.narrowin.ch/api.php/v2",
+    "secure": false,
+    "logLevel": "debug",
+    "pathRewrite": {"^/api" : ""},
+    "changeOrigin": true
+  }
+}

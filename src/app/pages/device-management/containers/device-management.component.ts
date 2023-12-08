@@ -4,7 +4,6 @@ import {
   Component,
   OnInit,
 } from "@angular/core";
-import { Observable } from "rxjs";
 import { Title } from "@angular/platform-browser";
 import { RestApiService } from "../../../core/services/data.service";
 import { Router } from "@angular/router";
@@ -17,9 +16,6 @@ import { Router } from "@angular/router";
   templateUrl: `./device-management.template.html`,
 })
 export class DeviceManagementComponent implements OnInit {
-  // @Select(LayoutState.getDarkMode) darkMode$: Observable<any>;
-  // @Select(LayoutState.getMessage) messages$: Observable<any>;
-
   constructor(
     private router: Router,
     private title: Title,
@@ -31,7 +27,13 @@ export class DeviceManagementComponent implements OnInit {
 
   ngOnInit() {
     console.log("here")
+    this.loadDevices()
   }
 
-
+  loadDevices() {
+    return this.restApi.getDevices().subscribe((data: {}) => {
+      console.log(data);
+      this.cdr.detectChanges();
+    });
+  }
 }

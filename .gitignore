@@ -35,6 +35,8 @@ chrome-profiler-events*.json
 /.sass-cache
 /connect.lock
 /coverage
+.env
+
 /libpeerconnection.log
 npm-debug.log
 yarn-error.log
