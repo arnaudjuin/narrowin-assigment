@@ -20,14 +20,14 @@ export class RestApiService {
       "Content-Type": "application/json",
     }),
   };
-// HttpClient API get() method => Fetch employees list
+// HttpClient API get() method => Fetch device list
   getDevices(): Observable<any[]> {
     return this.http
       .post<any[]>("/api" + "/explorer_device/list",{
         "username": environment.USERNAME,
         "token": environment.TOKEN
-      })
-      .pipe(retry(1), catchError(this.handleError));
+      })                                                   // post devices request
+      .pipe(retry(1), catchError(this.handleError)); //, catchError(this.handleError)
   }
 
   handleError(error: any) {

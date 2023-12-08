@@ -1,40 +1,77 @@
 <div class="bg-lighter small py-2">
-  <div class="container d-flex justify-content-between px-3">
+  <div class="container d-flex justify-content-between px-3 ">
     <div class="text-muted">lightweight network &amp; security services</div>
   </div>
 </div>
 <div class="row">
   <!-- nav -->
-  <div class="col order-2 order-lg-1">
+  <div class="col order-2 order-lg-1 bg-dark">
     <div class="ui-bordered">
-      <form style="display:inline;" action="devices.php" method="post">
+      <form method="post" style="display:inline;">
         <div class="col-md py-2" style="margin-bottom:-13px;margin-top:5px;">
           <div class="form-group">
             <div class="input-group">
-              <input type="text" name="search" class="form-control" placeholder="Device Information" value="">
-              <span class="input-group-append">
-                                <button class="btn btn-secondary" type="submit"><b>Search</b></button>
-                                <button class="btn btn-secondary btn-sm" type="button"
-                                        onclick="narrowin_search_help_show();"><i
-                                  class="ion ion-md-help navbar-icon align-middle"></i></button>
-                <!--                <?php if(!empty($search)){-->
-                <!--                                    echo '<a href="devices.php?search=">&nbsp;&nbsp;<button class="btn btn-secondary" type="button"><i class="ion ion-md-close navbar-icon align-middle"></i></button></a>';-->
-                <!--                                };-->
-                <!--                                ?>-->
-                                </span>
+              <input type="text" class="form-control" placeholder="Search..." (keyup)="search($event)">
+
             </div>
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">Size:
+              {{options.size}}</button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><button class="dropdown-item" type="button" (click)="size(5)">5</button></li>
+              <li><button class="dropdown-item" type="button" (click)="size(10)">10</button></li>
+              <li><button class="dropdown-item" type="button" (click)="size(20)">20</button></li>
+              <li><button class="dropdown-item" type="button" (click)="size(50)">50</button></li>
+              <li><button class="dropdown-item" type="button" (click)="size(100)">100</button></li>
+            </ul>
           </div>
         </div>
       </form>
     </div>
   </div>
 </div>
-<div class="row ">
+<!-- table -->
+<div class="card mb-3" *ngIf="devices">
+  <div class="card-body">
+    <table class="table" style="table-layout: fixed;">
+      <thead>
+      <tr>
+        <th (click)="order('Code')" role="button" style="width: 10%;">
+          # <span *ngIf="by('Code')">{{ direction }}</span>
+        </th>
+        <th (click)="order('Name')" role="button">
+          Name <span *ngIf="by('Name')">{{ direction }}</span>
+        </th>
+        <th (click)="order('Job')" role="button">
+          Job <span *ngIf="by('Job')">{{ direction }}</span>
+        </th>
+        <th (click)="order('Salary')" role="button" style="width: 15%;">
+          Salary <span *ngIf="by('Salary')">{{ direction }}</span>
+        </th>
+        <th (click)="order('Department')" role="button">
+          Department <span *ngIf="by('Department')">{{ direction }}</span>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let device of devices.data">
+        <td>{{device.system.name}}</td>
+      </tr>
+      <tr *ngIf="!devices.data.length">
+        <td colspan="5" class="text-center p-5">No records found</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!-- grid -->
+<div class="row bg-dark">
   <div class="col-sm-12 d-flex flex-sm-row flex-wrap justify-content-left align-items-sm-left border-bottom-0">
-    <div class="col-sm-6 col-xl-3 text-center p-3 border-right-0 ui-bordered" id="nodebox">
-      <a href="explorer_device_detail.php?id='.$helper['system']['serial'].'" style="cursor: pointer;">
+    <div *ngFor="let device of devices.data" class="col-sm-6 col-xl-3 text-center p-3 border-right-0 ui-bordered"
+         id="nodebox">
+
+      <a href="{{deviceURL+device.device.id}}" style="cursor: pointer;">
         <h5 class="text-large" style="color:#717171;">
-        name
+          {{device.system.name}}
         </h5>
         <div class="text-left px-1" style="margin-top:-8px;position:absolute;">
           test
@@ -42,30 +79,47 @@
         <div class="text-right px-1" style="margin-top:-8px;width:90%;position:absolute;">
           tagright
         </div>
-        <a href="explorer_device_detail.php?id='.$helper['system']['serial'].'" class="d-block text-center">
-          <img src="'.$helper['image'].'" class="mb-2" alt="" style="max-width: 85%; max-height: 120px">
+        <a class="d-block text-center">
+          <img alt="" class="mb-2" src="{{device.image}}" style="max-width: 85%; max-height: 120px">
         </a>
         <div class="row px-0">
           <div class="col-sm-6 col-xl-6 text-center">
-                                                <span class="text-muted small">
-                                                SERIAL
-                                                </span>
+               <span class="text-muted small">
+               SERIAL
+               </span>
             <br>
             <span class="small">
-                                               serial
-                                                </span>
+               {{device.system.serial}}
+               </span>
           </div>
           <div class="col-sm-6 col-xl-6 text-center">
-                                                <span class="text-muted small">
-                                                ADDRESS
-                                                </span>
+               <span class="text-muted small">
+               ADDRESS
+               </span>
             <br>
             <span class="small">
-                                                    address
-                                                </span>
+               {{device.system.address}}
+               </span>
           </div>
         </div>
       </a>
     </div>
   </div>
 </div>
+<!-- paginator -->
+
+<nav *ngIf="devices.data.length > 1">
+  <ul class="pagination justify-content-center">
+    <li id="prev" class="page-item" [ngClass]="{ 'disabled': options.page === 1 }">
+      <a class="page-link" href="#" (click)="prev()">Previous</a>
+    </li>
+    <ng-container *ngIf="devices.data">
+      <li class="page-item" *ngFor="let number of numbers" [ngClass]="{ 'active': options.page === number }">
+        <a class="page-link" href="#" (click)="to(number)">{{number}}</a>
+      </li>
+    </ng-container>
+    <li id="next" class="page-item" [ngClass]="{ 'disabled': options.page === numbers.length }">
+      <a class="page-link" href="#" (click)="next()" disabled="true">Next</a>
+    </li>
+  </ul>
+</nav>
