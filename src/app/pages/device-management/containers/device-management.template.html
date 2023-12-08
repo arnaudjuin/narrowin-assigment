@@ -1,1 +1,71 @@
-Test
+<div class="bg-lighter small py-2">
+  <div class="container d-flex justify-content-between px-3">
+    <div class="text-muted">lightweight network &amp; security services</div>
+  </div>
+</div>
+<div class="row">
+  <!-- nav -->
+  <div class="col order-2 order-lg-1">
+    <div class="ui-bordered">
+      <form style="display:inline;" action="devices.php" method="post">
+        <div class="col-md py-2" style="margin-bottom:-13px;margin-top:5px;">
+          <div class="form-group">
+            <div class="input-group">
+              <input type="text" name="search" class="form-control" placeholder="Device Information" value="">
+              <span class="input-group-append">
+                                <button class="btn btn-secondary" type="submit"><b>Search</b></button>
+                                <button class="btn btn-secondary btn-sm" type="button"
+                                        onclick="narrowin_search_help_show();"><i
+                                  class="ion ion-md-help navbar-icon align-middle"></i></button>
+                <!--                <?php if(!empty($search)){-->
+                <!--                                    echo '<a href="devices.php?search=">&nbsp;&nbsp;<button class="btn btn-secondary" type="button"><i class="ion ion-md-close navbar-icon align-middle"></i></button></a>';-->
+                <!--                                };-->
+                <!--                                ?>-->
+                                </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="row ">
+  <div class="col-sm-12 d-flex flex-sm-row flex-wrap justify-content-left align-items-sm-left border-bottom-0">
+    <div class="col-sm-6 col-xl-3 text-center p-3 border-right-0 ui-bordered" id="nodebox">
+      <a href="explorer_device_detail.php?id='.$helper['system']['serial'].'" style="cursor: pointer;">
+        <h5 class="text-large" style="color:#717171;">
+        name
+        </h5>
+        <div class="text-left px-1" style="margin-top:-8px;position:absolute;">
+          test
+        </div>
+        <div class="text-right px-1" style="margin-top:-8px;width:90%;position:absolute;">
+          tagright
+        </div>
+        <a href="explorer_device_detail.php?id='.$helper['system']['serial'].'" class="d-block text-center">
+          <img src="'.$helper['image'].'" class="mb-2" alt="" style="max-width: 85%; max-height: 120px">
+        </a>
+        <div class="row px-0">
+          <div class="col-sm-6 col-xl-6 text-center">
+                                                <span class="text-muted small">
+                                                SERIAL
+                                                </span>
+            <br>
+            <span class="small">
+                                               serial
+                                                </span>
+          </div>
+          <div class="col-sm-6 col-xl-6 text-center">
+                                                <span class="text-muted small">
+                                                ADDRESS
+                                                </span>
+            <br>
+            <span class="small">
+                                                    address
+                                                </span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
