@@ -36,6 +36,10 @@ chrome-profiler-events*.json
 /connect.lock
 /coverage
 .env
+*.env
+*.env.example
+*.env.local
+*.env.staging
 
 /libpeerconnection.log
 npm-debug.log
