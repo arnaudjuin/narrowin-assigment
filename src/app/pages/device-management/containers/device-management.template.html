@@ -11,24 +11,35 @@
         <div class="col-md py-2" style="margin-bottom:-13px;margin-top:5px;">
           <div class="form-group">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search..." (keyup)="search($event)">
+              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label [ngClass]="!list ? 'text-dark' : ''" class="btn btn-secondary active">
+                  <input type="radio" name="options" id="option1" autocomplete="off" checked (click)="toggleList(true)">
+                  <i style="font-size: 15px;" class="bi bi-grid-3x3 icon-300"></i>
+                </label>
+                <label [ngClass]="list ? 'text-dark' : ''" class="btn btn-secondary">
+                  <input type="radio" name="options" id="option2" autocomplete="off" (click)="toggleList(false)"> <i
+                  style="font-size: 15px;" class="bi bi-list"></i>
+                </label>
+              </div>
+              <input type="text" class="form-control search" placeholder="Search..." (keyup)="search($event)">
             </div>
-            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-              <label class="btn btn-secondary active">
-                <input checked="{{!list}}"type="radio" name="options" id="option1" autocomplete="off" checked (click)="toggleList(true)"> <i class="bi bi-grid-3x3"></i>
-              </label>
-              <label class="btn btn-secondary">
-                <input type="radio" name="options" id="option2" autocomplete="off" (click)="toggleList(false)"> <i class="bi bi-list"></i>
-              </label>
-            </div>
-            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">Size:
-              {{options.size}}</button>
+
             <ul class="dropdown-menu dropdown-menu-end">
-              <li><button class="dropdown-item" type="button" (click)="size(5)">5</button></li>
-              <li><button class="dropdown-item" type="button" (click)="size(10)">10</button></li>
-              <li><button class="dropdown-item" type="button" (click)="size(20)">20</button></li>
-              <li><button class="dropdown-item" type="button" (click)="size(50)">50</button></li>
-              <li><button class="dropdown-item" type="button" (click)="size(100)">100</button></li>
+              <li>
+                <button class="dropdown-item" type="button" (click)="size(5)">5</button>
+              </li>
+              <li>
+                <button class="dropdown-item" type="button" (click)="size(10)">10</button>
+              </li>
+              <li>
+                <button class="dropdown-item" type="button" (click)="size(20)">20</button>
+              </li>
+              <li>
+                <button class="dropdown-item" type="button" (click)="size(50)">50</button>
+              </li>
+              <li>
+                <button class="dropdown-item" type="button" (click)="size(100)">100</button>
+              </li>
             </ul>
           </div>
         </div>
@@ -37,57 +48,61 @@
   </div>
 </div>
 <!-- spinner -->
-<div class="row" *ngIf="!devices" class="bg-dark">
+<div class="row" *ngIf="!devices">
   <div class="center-spinner">
-  <div class="spinner-border" style="width: 30rem; height: 30rem;" role="status">
-    <span class="sr-only">Loading...</span>
-  </div>
+    <div class="spinner-border" style="width: 30rem; height: 30rem;" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
   </div>
 </div>
 <!-- table -->
-
-<div class="card mb-3" *ngIf="devices" [hidden]="!list"  >
-  <div class="card-body">
-    <table class="table" style="table-layout: fixed;">
-      <thead>
-      <tr>
-        <th (click)="order('Name')" role="button" style="width: 10%;">
-          # <span *ngIf="by('Name')">{{ direction }}</span>
-        </th>
-        <th (click)="order('Name')" role="button">
-          Name <span *ngIf="by('Name')">{{ direction }}</span>
-        </th>
-        <th (click)="order('Job')" role="button">
-          Job <span *ngIf="by('Job')">{{ direction }}</span>
-        </th>
-        <th (click)="order('Salary')" role="button" style="width: 15%;">
-          Salary <span *ngIf="by('Salary')">{{ direction }}</span>
-        </th>
-        <th (click)="order('Department')" role="button">
-          Department <span *ngIf="by('Department')">{{ direction }}</span>
-        </th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let device of devices.data">
-        <td>{{device.system.name}}</td>
-      </tr>
-      <tr *ngIf="!devices.data.length">
-        <td colspan="5" class="text-center p-5">No records found</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+<div class="card mb-3" *ngIf="devices" [hidden]="!list" class="bg-dark text-white">
+  <table class="table" style="table-layout: fixed;">
+    <thead>
+    <tr class="text-white">
+      <th class="text-muted " (click)="order('Name')" role="button" style="width: 10%;">
+        <h2> # </h2>
+      </th>
+      <th class="text-muted " role="button">
+        <h2>Name <span *ngIf="by('Name')">{{ direction }}</span></h2>
+      </th>
+      <th class="text-muted " >
+        <h2> Tags </h2>
+      </th>
+      <th class="text-muted " style="width: 15%;">
+        <h2> Serial </h2>
+      </th>
+      <th class="text-muted ">
+        <h2> Address <span *ngIf="by('Department')">{{ direction }}</span></h2>
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let device of devices" id="nodebox" class="text-white">
+      <td><a href="{{deviceURL+device.device.id}}"><img alt="" class="mb-2" src="{{device.image}}"
+                                                        style="max-width: 85%; max-height: 120px"></a></td>
+      <td><h2>{{device.system.name}}<i (click)="copy(device.system.name)" class="ml-2 bi bi-copy"></i></h2></td>
+      <td><h2>tags</h2></td>
+      <td><h2>{{device.system.serial}}<i (click)="copy(device.system.serial)" class="ml-2 bi bi-copy"></i></h2></td>
+      <td><h2>{{device.system.address}}<i (click)="copy(device.system.address)" class="ml-2 bi bi-copy"></i></h2>
+      </td>
+    </tr>
+    <tr *ngIf="!devices.length">
+      <td colspan="5" class="text-center p-5">No records found</td>
+    </tr>
+    </tbody>
+  </table>
 </div>
 <!-- grid -->
-<div class="row bg-dark" [hidden]="list" *ngIf="devices" >
-  <div *ngIf="devices" class="col-sm-12 d-flex flex-sm-row flex-wrap justify-content-left align-items-sm-left border-bottom-0">
-    <div  *ngFor="let device of devices?.data" class="col-sm-6 col-xl-3 text-center p-3 border-right-0 ui-bordered"
+<div class="row bg-dark" [hidden]="list" *ngIf="devices">
+  <div *ngIf="devices"
+       class="col-sm-12 d-flex flex-sm-row flex-wrap justify-content-left align-items-sm-left border-bottom-0">
+    <div *ngFor="let device of devices" class="col-sm-6 col-xl-3 text-center p-3 border-right-0 ui-bordered"
          id="nodebox">
-      <a href="{{deviceURL+device.device.id}}" style="cursor: pointer;">
-        <h5 class="text-large" style="color:#717171;">
+      <a href="{{deviceURL+device.device.id}}" class="text-white" style="cursor: pointer;">
+        <h2>
           {{device.system.name}}
-        </h5>
+        </h2>
         <div class="text-left px-1" style="margin-top:-8px;position:absolute;">
           test
         </div>
@@ -99,22 +114,20 @@
         </a>
         <div class="row px-0">
           <div class="col-sm-6 col-xl-6 text-center">
-               <span class="text-muted small">
-               SERIAL
-               </span>
-            <br>
-            <span class="small">
-               {{device.system.serial}}
-               </span>
+            <h2 class="text-muted ">
+              SERIAL
+            </h2>
+            <h2>
+              {{device.system.serial}}
+            </h2>
           </div>
           <div class="col-sm-6 col-xl-6 text-center">
-               <span class="text-muted small">
-               ADDRESS
-               </span>
-            <br>
-            <span class="small">
-               {{device.system.address}}
-               </span>
+            <h2 class="text-muted ">
+              ADDRESS
+            </h2>
+            <h2>
+              {{device.system.address}}
+            </h2>
           </div>
         </div>
       </a>
@@ -123,18 +136,18 @@
 </div>
 <!-- paginator -->
 
-<nav *ngIf="devices?.data?.length > 1" class="bg-dark">
-  <ul class="pagination justify-content-center bg-dark">
+<nav *ngIf="devices?.length > 1">
+  <ul class="pagination justify-content-center ">
     <li id="prev" class="page-item" [ngClass]="{ 'disabled': options.page === 1 }">
-      <a class="page-link" href="#" (click)="prev()">Previous</a>
+      <a class="page-link" (click)="prev()">Previous</a>
     </li>
-    <ng-container *ngIf="devices?.data">
+    <ng-container *ngIf="devices" class="bg-dark">
       <li class="page-item" *ngFor="let number of numbers" [ngClass]="{ 'active': options.page === number }">
-        <a class="page-link" href="#" (click)="to(number)">{{number}}</a>
+        <a class="bg-dark" class="page-link" (click)="to(number)">{{number}}</a>
       </li>
     </ng-container>
     <li id="next" class="page-item" [ngClass]="{ 'disabled': options.page === numbers.length }">
-      <a class="page-link" href="#" (click)="next()" disabled="true">Next</a>
+      <a class="page-link" (click)="next()">Next</a>
     </li>
   </ul>
 </nav>

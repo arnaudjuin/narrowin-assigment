@@ -23,8 +23,14 @@
 @import "~bootstrap-icons/font/bootstrap-icons.css";
 
 
+app-root {
+  background-color: rgba(24, 28, 33, 0.9) !important;
+  display: block !important;
+  min-height: 100vh !important;
+}
 
-
-
+body {
+  overflow-x: hidden; /* Hide vertical scrollbar */
+}
 
 

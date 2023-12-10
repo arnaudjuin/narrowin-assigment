@@ -14,6 +14,18 @@ import {Subscription} from "rxjs";
 })
 
 export class DeviceManagementComponent implements OnInit {
+  options = {
+    orderBy: 'Name',
+    orderDir: 'ASC',
+    page: 1,
+    size: 5,
+    totalSize:0
+  };
+  devices: any
+  deviceURL: string = ""
+  getDevicesSub: Subscription | undefined;
+  list: boolean = true;
+
   constructor(
     private router: Router,
     private title: Title,
@@ -23,18 +35,14 @@ export class DeviceManagementComponent implements OnInit {
     this.title.setTitle("Device Management");
   }
 
-  options = {
-    orderBy: 'Name',
-    orderDir: 'ASC',
-    page: 1,
-    search: '',
-    size: 3
-  };
-  devices: any
-  deviceURL: string = ""
-  getDevicesSub: Subscription | undefined;
-  list: boolean = true;
+  get direction() {
+    return this.options.orderDir === 'ASC' ? '⬆' : '⬇';
+  }
 
+  get numbers(): number[] {
+    const limit = Math.ceil((this.options.totalSize) / this.options.size);
+    return Array.from({length: limit}, (_, i) => i + 1);
+  }
 
   ngOnInit() {
     this.deviceURL = environment.LINKURL + "/explorer_device_detail.php?id="
@@ -47,35 +55,41 @@ export class DeviceManagementComponent implements OnInit {
     this.getDevicesSub.unsubscribe();
   }
 
-  toggleList(_list:boolean){
+  toggleList(_list: boolean) {
     this.list = !_list;
     this.cdr.detectChanges();     //to refresh the view
   }
 
   loadDevices() {
     this.cdr.detectChanges();     //to refresh the view
-    console.log("load")
-    this.getDevicesSub = this.restApi.getDevices().subscribe((data: {}) => {
-      this.devices = data;
+    this.getDevicesSub = this.restApi.getDevices().subscribe((response: {}) => {
+      // @ts-ignore
+      this.options.totalSize= response?.data.length;
+      // @ts-ignore
+      this.devices = response?.data.slice(this.options.size * (this.options.page - 1), this.options.size * this.options.page);
       this.cdr.detectChanges();     //to refresh the view
     });
   }
+
   searchDevices(text: string) {
-    this.devices=null
+    this.devices = null
     this.cdr.detectChanges();     //to refresh the view
-    console.log("search")
-    this.getDevicesSub = this.restApi.search(text).subscribe((data: {}) => {
-      this.devices = data;
+    this.getDevicesSub = this.restApi.search(text).subscribe((response: {}) => {
+      // @ts-ignore
+      console.log(response.data)
+      // @ts-ignore
+      this.options.totalSize= response?.data.length;
+      // @ts-ignore
+      this.devices = response?.data.slice(this.options.size * (this.options.page - 1), this.options.size * this.options.page);
       this.cdr.detectChanges();     //to refresh the view
     });
   }
 
   search($event: any): void {
-    this.devices=null
+    this.devices = null
     this.cdr.detectChanges();     //to refresh the view
     console.log("load")
     const text = $event.target.value;
-    this.options.search = text;
     this.options.page = 1;
     this.searchDevices(text);
   }
@@ -99,15 +113,6 @@ export class DeviceManagementComponent implements OnInit {
     return this.options.orderBy === order;
   }
 
-  get direction() {
-    return this.options.orderDir === 'ASC' ? '?' : '?';
-  }
-
-  get numbers(): number[] {
-    const limit = Math.ceil((this.devices.data.length) / this.options.size);
-    return Array.from({length: limit}, (_, i) => i + 1);
-  }
-
   next() {
     this.options.page++;
     this.loadDevices();
@@ -123,5 +128,11 @@ export class DeviceManagementComponent implements OnInit {
     this.loadDevices();
   }
 
-
+  copy(text: string) {
+    navigator.clipboard.writeText(text).then(function () {
+      console.log('Async: Copying to clipboard was successful!');
+    }, function (err) {
+      console.error('Async: Could not copy text: ', err);
+    });
+  }
 }
