@@ -34,3 +34,9 @@ body {
 }
 
 
+.navbar{
+  margin-bottom: 0px !important;
+}
+.navbar-nav{
+  height: 30px!important;
+}

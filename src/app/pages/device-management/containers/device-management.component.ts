@@ -46,7 +46,6 @@ export class DeviceManagementComponent implements OnInit {
 
   ngOnInit() {
     this.deviceURL = environment.LINKURL + "/explorer_device_detail.php?id="
-    console.log(this.deviceURL)
     this.loadDevices() //load devices on init
   }
 
@@ -88,7 +87,6 @@ export class DeviceManagementComponent implements OnInit {
   search($event: any): void {
     this.devices = null
     this.cdr.detectChanges();     //to refresh the view
-    console.log("load")
     const text = $event.target.value;
     this.options.page = 1;
     this.searchDevices(text);
@@ -96,6 +94,7 @@ export class DeviceManagementComponent implements OnInit {
 
   size(size: number) {
     this.options.size = size;
+    console.log(this.options.size)
     this.options.page = 1;
     this.loadDevices();
   }

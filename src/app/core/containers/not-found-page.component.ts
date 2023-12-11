@@ -4,7 +4,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   selector: 'app-not-found-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-        <p>Hey! It looks like this page doesn't exist yet.</p>
+        <h1 class="pt-5 text-white">Hey! It looks like this page doesn't exist yet.</h1>
   `,
   styles: [
     `
